@@ -3,13 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import VenueDetails from "./form-steps/VenueDetails";
 import LocationDetails from "./form-steps/LocationDetails";
 import FacilitiesAmenities from "./form-steps/FacilitiesAmenities";
 import PricingPackages from "./form-steps/PricingPackages";
 import PhotoUpload from "./form-steps/PhotoUpload";
 import ContactInfo from "./form-steps/ContactInfo";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 export interface VenueFormData {
   // Venue Details
@@ -60,6 +61,7 @@ interface VenueRegistrationFormProps {
 export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistrationFormProps) {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const totalSteps = 6;
   
   const [formData, setFormData] = useState<VenueFormData>({
@@ -110,16 +112,104 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
   };
 
   const handleSubmit = async () => {
-    // Here you would normally submit to a backend
-    toast({
-      title: "Registration Submitted!",
-      description: "We'll review your venue details and contact you within 24-48 hours.",
-    });
+    setIsSubmitting(true);
     
-    // For now, just call the success callback
-    setTimeout(() => {
-      onSubmitSuccess();
-    }, 1500);
+    try {
+      // Upload photos to storage first
+      const photoUrls: string[] = [];
+      if (formData.photos.length > 0) {
+        for (const photo of formData.photos) {
+          const fileExt = photo.name.split('.').pop();
+          const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+          
+          const { error: uploadError, data } = await supabase.storage
+            .from('venue-photos')
+            .upload(fileName, photo);
+            
+          if (uploadError) {
+            console.error('Photo upload error:', uploadError);
+            continue;
+          }
+          
+          if (data) {
+            const { data: { publicUrl } } = supabase.storage
+              .from('venue-photos')
+              .getPublicUrl(fileName);
+            photoUrls.push(publicUrl);
+          }
+        }
+      }
+      
+      // Insert venue data
+      const { data: venue, error: venueError } = await supabase
+        .from('venues')
+        .insert({
+          venue_name: formData.venueName,
+          venue_type: formData.venueType,
+          description: formData.description,
+          year_established: formData.yearEstablished ? parseInt(formData.yearEstablished) : null,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zip_code: formData.zipCode,
+          landmark: formData.landmark,
+          min_capacity: formData.minCapacity ? parseInt(formData.minCapacity) : null,
+          max_capacity: formData.maxCapacity ? parseInt(formData.maxCapacity) : null,
+          indoor_area: formData.indoorArea ? parseInt(formData.indoorArea) : null,
+          outdoor_area: formData.outdoorArea ? parseInt(formData.outdoorArea) : null,
+          facilities: formData.facilities,
+          amenities: formData.amenities,
+          price_range: formData.priceRange,
+          starting_price: formData.startingPrice ? parseFloat(formData.startingPrice) : null,
+          price_includes: formData.priceIncludes,
+          additional_services: formData.additionalServices,
+          contact_name: formData.contactName,
+          contact_email: formData.contactEmail,
+          contact_phone: formData.contactPhone,
+          alternate_phone: formData.alternatePhone,
+          preferred_contact_time: formData.preferredContactTime,
+          website: formData.website
+        })
+        .select()
+        .single();
+        
+      if (venueError) {
+        throw venueError;
+      }
+      
+      // Insert photo records
+      if (venue && photoUrls.length > 0) {
+        const photoRecords = photoUrls.map((url, index) => ({
+          venue_id: venue.id,
+          photo_url: url,
+          is_primary: index === 0,
+          display_order: index
+        }));
+        
+        await supabase
+          .from('venue_photos')
+          .insert(photoRecords);
+      }
+      
+      toast({
+        title: "Registration Submitted Successfully!",
+        description: "We'll review your venue details and contact you within 24-48 hours.",
+      });
+      
+      setTimeout(() => {
+        onSubmitSuccess();
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: "Submission Failed",
+        description: "There was an error submitting your registration. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderStep = () => {
@@ -189,9 +279,17 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
               <Button
                 variant="hero"
                 onClick={handleSubmit}
+                disabled={isSubmitting}
                 className="min-w-[120px]"
               >
-                Submit Registration
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  'Submit Registration'
+                )}
               </Button>
             ) : (
               <Button
