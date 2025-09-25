@@ -8,23 +8,23 @@ interface HeroProps {
 
 export default function Hero({ onRegisterClick }: HeroProps) {
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-radial">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 bg-gradient-primary opacity-10"></div>
-      <div className="absolute top-20 left-10 w-72 h-72 bg-celebration-orange rounded-full opacity-20 blur-3xl animate-float"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-gold rounded-full opacity-20 blur-3xl animate-float-delayed"></div>
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+      {/* Hero Background Image - More visible */}
+      <div className="absolute inset-0">
+        <img 
+          src={heroVenue} 
+          alt="Luxury wedding venue" 
+          className="w-full h-full object-cover brightness-75"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-primary/15 to-background/70"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-transparent via-celebration-orange/20 to-background/50"></div>
+      </div>
+      
+      {/* Decorative overlay elements */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-celebration-orange rounded-full opacity-25 blur-3xl animate-float"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-gold rounded-full opacity-25 blur-3xl animate-float-delayed"></div>
       
       <div className="relative z-10 container mx-auto px-4 py-20 text-center">
-        {/* Hero Background Image */}
-        <div className="absolute inset-0 -z-10">
-          <img 
-            src={heroVenue} 
-            alt="Luxury wedding venue" 
-            className="w-full h-full object-cover opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/90"></div>
-        </div>
-        
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
             Partner with Zest Events
