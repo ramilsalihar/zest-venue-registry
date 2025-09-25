@@ -8,35 +8,44 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core colors */
+    --background: 30 20% 98%;
+    --foreground: 195 35% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 195 35% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 195 35% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Zest Events Brand Colors */
+    --primary: 16 88% 57%;  /* Vibrant Orange */
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 25 95% 60%;  /* Lighter orange for glow */
+    --primary-muted: 16 60% 85%;  /* Soft orange */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 188 76% 25%;  /* Deep Teal */
+    --secondary-foreground: 0 0% 100%;
+    --secondary-dark: 188 76% 18%;  /* Darker teal */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 42 92% 55%;  /* Gold/Yellow */
+    --accent-foreground: 195 35% 15%;
+    --accent-gold: 37 90% 51%;  /* Rich gold */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --celebration-orange: 20 95% 55%;
+    --celebration-yellow: 45 100% 60%;
+
+    --muted: 30 10% 95%;
+    --muted-foreground: 195 20% 40%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 30 15% 90%;
+    --input: 30 15% 90%;
+    --ring: 16 88% 57%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -53,6 +62,20 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--celebration-orange)), hsl(var(--celebration-yellow)));
+    --gradient-warm: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-celebration: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent-gold)));
+    --gradient-radial: radial-gradient(circle at top, hsl(var(--primary-muted)), transparent);
+    
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.3);
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.2);
+    --shadow-card: 0 4px 20px -2px hsl(var(--secondary) / 0.1);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
@@ -100,6 +123,23 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-poppins;
   }
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-glow;
 }

@@ -1,11 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useRef } from "react";
+import Hero from "@/components/Hero";
+import VenueRegistrationForm from "@/components/VenueRegistrationForm";
+import ConfirmationScreen from "@/components/ConfirmationScreen";
 
 const Index = () => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSubmitSuccess = () => {
+    setShowConfirmation(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToHome = () => {
+    setShowConfirmation(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  if (showConfirmation) {
+    return <ConfirmationScreen onBackToHome={handleBackToHome} />;
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen">
+      <Hero onRegisterClick={scrollToForm} />
+      <div ref={formRef}>
+        <VenueRegistrationForm onSubmitSuccess={handleSubmitSuccess} />
       </div>
     </div>
   );
