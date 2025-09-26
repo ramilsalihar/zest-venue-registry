@@ -192,8 +192,8 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
       }
       
       toast({
-        title: "Registration Submitted Successfully!",
-        description: "We'll review your venue details and contact you within 24-48 hours.",
+        title: "Регистрация Успешно Отправлена!",
+        description: "Мы рассмотрим детали вашей площадки и свяжемся с вами в течение 24-48 часов.",
       });
       
       setTimeout(() => {
@@ -203,8 +203,8 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
     } catch (error) {
       console.error('Submission error:', error);
       toast({
-        title: "Submission Failed",
-        description: "There was an error submitting your registration. Please try again.",
+        title: "Ошибка Отправки",
+        description: "Произошла ошибка при отправке вашей регистрации. Пожалуйста, попробуйте еще раз.",
         variant: "destructive"
       });
     } finally {
@@ -232,27 +232,27 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
   };
 
   const stepTitles = [
-    "Venue Details",
-    "Location",
-    "Facilities",
-    "Pricing",
-    "Photos",
-    "Contact Info"
+    "Детали Площадки",
+    "Расположение",
+    "Удобства",
+    "Цены",
+    "Фотографии",
+    "Контакты"
   ];
 
   return (
     <section id="registration-form" className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 text-foreground">Register Your Venue</h2>
-          <p className="text-lg text-muted-foreground">Complete the form below to join our network</p>
+          <h2 className="text-4xl font-bold mb-4 text-foreground">Зарегистрируйте Вашу Площадку</h2>
+          <p className="text-lg text-muted-foreground">Заполните форму ниже, чтобы присоединиться к нашей сети</p>
         </div>
 
         <Card className="p-8 shadow-xl">
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex justify-between text-sm mb-2">
-              <span className="font-medium text-primary">Step {currentStep} of {totalSteps}</span>
+              <span className="font-medium text-primary">Шаг {currentStep} из {totalSteps}</span>
               <span className="text-muted-foreground">{stepTitles[currentStep - 1]}</span>
             </div>
             <Progress value={(currentStep / totalSteps) * 100} className="h-2" />
@@ -272,7 +272,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
               className="min-w-[120px]"
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
-              Previous
+              Назад
             </Button>
 
             {currentStep === totalSteps ? (
@@ -285,10 +285,10 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting...
+                    Отправка...
                   </>
                 ) : (
-                  'Submit Registration'
+                  'Отправить Регистрацию'
                 )}
               </Button>
             ) : (
@@ -297,7 +297,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
                 onClick={handleNext}
                 className="min-w-[120px]"
               >
-                Next
+                Далее
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             )}

@@ -69,44 +69,44 @@ export default function ConfirmationScreen({ onBackToHome }: ConfirmationScreenP
           <CheckCircle className="w-20 h-20 text-primary mx-auto mb-6 animate-glow" />
           
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
-            Congratulations!
+            Поздравляем!
           </h1>
           
           <p className="text-xl text-foreground mb-8">
-            Your venue registration has been successfully submitted
+            Ваша регистрация площадки успешно отправлена
           </p>
 
           <div className="bg-muted/30 rounded-lg p-6 mb-8">
-            <h3 className="font-semibold text-lg mb-4">What happens next?</h3>
+            <h3 className="font-semibold text-lg mb-4">Что будет дальше?</h3>
             <div className="space-y-4 text-left max-w-md mx-auto">
               <div className="flex items-start space-x-3">
                 <Mail className="w-5 h-5 text-primary mt-1" />
                 <div>
-                  <p className="font-medium">Email Confirmation</p>
-                  <p className="text-sm text-muted-foreground">You'll receive a confirmation email within 5 minutes</p>
+                  <p className="font-medium">Подтверждение по Email</p>
+                  <p className="text-sm text-muted-foreground">Вы получите письмо с подтверждением в течение 5 минут</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 text-primary mt-1" />
                 <div>
-                  <p className="font-medium">Verification Call</p>
-                  <p className="text-sm text-muted-foreground">Our team will contact you within 24-48 hours</p>
+                  <p className="font-medium">Проверочный Звонок</p>
+                  <p className="text-sm text-muted-foreground">Наша команда свяжется с вами в течение 24-48 часов</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
                 <Calendar className="w-5 h-5 text-primary mt-1" />
                 <div>
-                  <p className="font-medium">Venue Visit</p>
-                  <p className="text-sm text-muted-foreground">We'll schedule a visit to complete the onboarding</p>
+                  <p className="font-medium">Посещение Площадки</p>
+                  <p className="text-sm text-muted-foreground">Мы запланируем визит для завершения регистрации</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="bg-gradient-primary text-primary-foreground rounded-lg p-6 mb-8">
-            <h3 className="font-semibold text-lg mb-2">Your Registration ID</h3>
+            <h3 className="font-semibold text-lg mb-2">Ваш Регистрационный Номер</h3>
             <p className="text-2xl font-mono font-bold">ZE-{Date.now().toString().slice(-8)}</p>
-            <p className="text-sm mt-2 opacity-90">Please save this for future reference</p>
+            <p className="text-sm mt-2 opacity-90">Пожалуйста, сохраните его для справки</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -116,7 +116,7 @@ export default function ConfirmationScreen({ onBackToHome }: ConfirmationScreenP
               onClick={onBackToHome}
               className="min-w-[200px]"
             >
-              Back to Home
+              Вернуться на Главную
               <ArrowRight className="ml-2" />
             </Button>
             <Button
@@ -124,7 +124,7 @@ export default function ConfirmationScreen({ onBackToHome }: ConfirmationScreenP
               size="lg"
               className="min-w-[200px]"
             >
-              Download Details
+              Скачать Детали
             </Button>
           </div>
         </Card>

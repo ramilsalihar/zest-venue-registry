@@ -65,8 +65,8 @@ export default function VenueGrid() {
       <section className="py-20 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 text-foreground">Featured Venues</h2>
-            <p className="text-lg text-muted-foreground">Discover our premium event spaces</p>
+            <h2 className="text-4xl font-bold mb-4 text-foreground">Избранные Площадки</h2>
+            <p className="text-lg text-muted-foreground">Откройте для себя наши премиальные площадки для мероприятий</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -94,9 +94,9 @@ export default function VenueGrid() {
       <section className="py-20 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h2 className="text-4xl font-bold mb-4 text-foreground">Featured Venues</h2>
-            <p className="text-lg text-muted-foreground mb-8">No venues available at the moment</p>
-            <p className="text-muted-foreground">Please check back later or register your venue to be featured!</p>
+            <h2 className="text-4xl font-bold mb-4 text-foreground">Избранные Площадки</h2>
+            <p className="text-lg text-muted-foreground mb-8">На данный момент площадки недоступны</p>
+            <p className="text-muted-foreground">Пожалуйста, проверьте позже или зарегистрируйте свою площадку!</p>
           </div>
         </div>
       </section>
@@ -107,8 +107,8 @@ export default function VenueGrid() {
     <section className="py-20 bg-muted/20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 text-foreground">Featured Venues</h2>
-          <p className="text-lg text-muted-foreground">Discover our premium event spaces</p>
+          <h2 className="text-4xl font-bold mb-4 text-foreground">Избранные Площадки</h2>
+          <p className="text-lg text-muted-foreground">Откройте для себя наши премиальные площадки для мероприятий</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -142,19 +142,19 @@ export default function VenueGrid() {
                   {venue.max_capacity && (
                     <Badge variant="outline" className="text-xs">
                       <Users className="h-3 w-3 mr-1" />
-                      Up to {venue.max_capacity} guests
+                      До {venue.max_capacity} гостей
                     </Badge>
                   )}
                   {venue.indoor_area && (
                     <Badge variant="outline" className="text-xs">
                       <Building className="h-3 w-3 mr-1" />
-                      {venue.indoor_area} sq ft
+                      {venue.indoor_area} кв. фт
                     </Badge>
                   )}
                   {venue.outdoor_area && venue.outdoor_area > 0 && (
                     <Badge variant="outline" className="text-xs">
                       <Trees className="h-3 w-3 mr-1" />
-                      Outdoor
+                      Открытая площадка
                     </Badge>
                   )}
                 </div>
@@ -162,7 +162,7 @@ export default function VenueGrid() {
                 {venue.starting_price && (
                   <div className="pt-2 border-t">
                     <p className="text-sm font-semibold text-primary">
-                      Starting from ₹{venue.starting_price.toLocaleString()}
+                      От ₹{venue.starting_price.toLocaleString()}
                     </p>
                     {venue.price_range && (
                       <p className="text-xs text-muted-foreground">{venue.price_range}</p>

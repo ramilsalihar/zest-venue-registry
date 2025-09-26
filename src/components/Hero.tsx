@@ -27,15 +27,15 @@ export default function Hero({ onRegisterClick }: HeroProps) {
       <div className="relative z-10 container mx-auto px-4 py-20 text-center">
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
-            Partner with Zest Events
+            Сотрудничайте с Zest Events
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-4 max-w-3xl mx-auto">
-            Join our exclusive network of premium venues for weddings and cultural celebrations
+            Присоединяйтесь к нашей эксклюзивной сети премиальных площадок для свадеб и культурных торжеств
           </p>
           
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Connect with thousands of families looking for the perfect venue to celebrate life's most precious moments
+            Свяжитесь с тысячами семей, ищущих идеальное место для празднования самых драгоценных моментов жизни
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -45,7 +45,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
               onClick={onRegisterClick}
               className="text-lg px-8 py-6 h-auto"
             >
-              Register Your Venue
+              Зарегистрировать Площадку
               <ArrowRight className="ml-2" />
             </Button>
             <Button 
@@ -53,7 +53,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
               size="lg"
               className="text-lg px-8 py-6 h-auto"
             >
-              Learn More
+              Узнать Больше
               <Sparkles className="ml-2" />
             </Button>
           </div>
@@ -61,15 +61,15 @@ export default function Hero({ onRegisterClick }: HeroProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-16">
             <div className="bg-card p-6 rounded-lg shadow-card backdrop-blur-sm">
               <div className="text-3xl font-bold text-primary mb-2">500+</div>
-              <div className="text-muted-foreground">Registered Venues</div>
+              <div className="text-muted-foreground">Зарегистрированных Площадок</div>
             </div>
             <div className="bg-card p-6 rounded-lg shadow-card backdrop-blur-sm">
               <div className="text-3xl font-bold text-primary mb-2">10,000+</div>
-              <div className="text-muted-foreground">Happy Celebrations</div>
+              <div className="text-muted-foreground">Счастливых Торжеств</div>
             </div>
             <div className="bg-card p-6 rounded-lg shadow-card backdrop-blur-sm">
               <div className="text-3xl font-bold text-primary mb-2">4.9★</div>
-              <div className="text-muted-foreground">Average Rating</div>
+              <div className="text-muted-foreground">Средний Рейтинг</div>
             </div>
           </div>
         </div>
