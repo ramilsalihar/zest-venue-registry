@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Hero from "@/components/Hero";
 import VenueRegistrationForm from "@/components/VenueRegistrationForm";
 import ConfirmationScreen from "@/components/ConfirmationScreen";
+import VenueGrid from "@/components/VenueGrid";
 
 const Index = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -28,6 +29,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Hero onRegisterClick={scrollToForm} />
+      <VenueGrid />
       <div ref={formRef}>
         <VenueRegistrationForm onSubmitSuccess={handleSubmitSuccess} />
       </div>
