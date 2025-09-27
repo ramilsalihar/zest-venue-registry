@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import heroVenue from "@/assets/hero-venue.jpg";
+import { useNavigate } from "react-router-dom";
 
-interface HeroProps {
-  onRegisterClick: () => void;
-}
-
-export default function Hero({ onRegisterClick }: HeroProps) {
+export default function Hero() {
+  const navigate = useNavigate();
   return (
     <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       {/* Hero Background Image - More visible */}
@@ -42,7 +40,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
             <Button 
               variant="hero" 
               size="lg" 
-              onClick={onRegisterClick}
+              onClick={() => navigate('/venue-registration')}
               className="text-lg px-8 py-6 h-auto"
             >
               Зарегистрировать Площадку
@@ -56,21 +54,6 @@ export default function Hero({ onRegisterClick }: HeroProps) {
               Узнать Больше
               <Sparkles className="ml-2" />
             </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-16">
-            <div className="bg-card p-6 rounded-lg shadow-card backdrop-blur-sm">
-              <div className="text-3xl font-bold text-primary mb-2">500+</div>
-              <div className="text-muted-foreground">Зарегистрированных Площадок</div>
-            </div>
-            <div className="bg-card p-6 rounded-lg shadow-card backdrop-blur-sm">
-              <div className="text-3xl font-bold text-primary mb-2">10,000+</div>
-              <div className="text-muted-foreground">Счастливых Торжеств</div>
-            </div>
-            <div className="bg-card p-6 rounded-lg shadow-card backdrop-blur-sm">
-              <div className="text-3xl font-bold text-primary mb-2">4.9★</div>
-              <div className="text-muted-foreground">Средний Рейтинг</div>
-            </div>
           </div>
         </div>
       </div>
