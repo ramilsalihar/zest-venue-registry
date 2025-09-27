@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
   const navigate = useNavigate();
+  
   return (
     <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       {/* Hero Background Image - More visible */}
