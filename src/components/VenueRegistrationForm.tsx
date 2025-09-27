@@ -4,13 +4,15 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { validateStep } from "@/lib/venue-validation";
 import VenueDetails from "./form-steps/VenueDetails";
 import LocationDetails from "./form-steps/LocationDetails";
 import FacilitiesAmenities from "./form-steps/FacilitiesAmenities";
 import PricingPackages from "./form-steps/PricingPackages";
 import PhotoUpload from "./form-steps/PhotoUpload";
 import ContactInfo from "./form-steps/ContactInfo";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export interface VenueFormData {
   // Venue Details
@@ -62,6 +64,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const totalSteps = 6;
   
   const [formData, setFormData] = useState<VenueFormData>({
@@ -95,9 +98,21 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
 
   const updateFormData = (data: Partial<VenueFormData>) => {
     setFormData(prev => ({ ...prev, ...data }));
+    // Clear validation errors when user makes changes
+    setValidationErrors([]);
   };
 
   const handleNext = () => {
+    const validation = validateStep(currentStep, formData);
+    
+    if (!validation.success) {
+      const errors = 'error' in validation ? validation.error.issues.map(issue => issue.message) : ['Ошибка валидации'];
+      setValidationErrors(errors);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    setValidationErrors([]);
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -105,6 +120,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
   };
 
   const handlePrevious = () => {
+    setValidationErrors([]);
     if (currentStep > 1) {
       setCurrentStep(prev => prev - 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -112,7 +128,18 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
   };
 
   const handleSubmit = async () => {
+    // Validate the last step
+    const validation = validateStep(currentStep, formData);
+    
+    if (!validation.success) {
+      const errors = 'error' in validation ? validation.error.issues.map(issue => issue.message) : ['Ошибка валидации'];
+      setValidationErrors(errors);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
     setIsSubmitting(true);
+    setValidationErrors([]);
     
     try {
       // Upload photos to storage first
@@ -152,7 +179,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
           city: formData.city,
           state: formData.state,
           zip_code: formData.zipCode,
-          landmark: formData.landmark,
+          landmark: formData.landmark || null,
           min_capacity: formData.minCapacity ? parseInt(formData.minCapacity) : null,
           max_capacity: formData.maxCapacity ? parseInt(formData.maxCapacity) : null,
           indoor_area: formData.indoorArea ? parseInt(formData.indoorArea) : null,
@@ -162,13 +189,13 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
           price_range: formData.priceRange,
           starting_price: formData.startingPrice ? parseFloat(formData.startingPrice) : null,
           price_includes: formData.priceIncludes,
-          additional_services: formData.additionalServices,
+          additional_services: formData.additionalServices || null,
           contact_name: formData.contactName,
           contact_email: formData.contactEmail,
           contact_phone: formData.contactPhone,
-          alternate_phone: formData.alternatePhone,
+          alternate_phone: formData.alternatePhone || null,
           preferred_contact_time: formData.preferredContactTime,
-          website: formData.website
+          website: formData.website || null
         })
         .select()
         .single();
@@ -192,7 +219,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
       }
       
       toast({
-        title: "Регистрация Успешно Отправлена!",
+        title: "Регистрация успешно отправлена!",
         description: "Мы рассмотрим детали вашей площадки и свяжемся с вами в течение 24-48 часов.",
       });
       
@@ -203,7 +230,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
     } catch (error) {
       console.error('Submission error:', error);
       toast({
-        title: "Ошибка Отправки",
+        title: "Ошибка отправки",
         description: "Произошла ошибка при отправке вашей регистрации. Пожалуйста, попробуйте еще раз.",
         variant: "destructive"
       });
@@ -232,23 +259,39 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
   };
 
   const stepTitles = [
-    "Детали Площадки",
+    "Детали площадки",
     "Расположение",
-    "Удобства",
-    "Цены",
+    "Удобства и услуги",
+    "Ценовая политика",
     "Фотографии",
-    "Контакты"
+    "Контактная информация"
   ];
 
   return (
-    <section id="registration-form" className="py-20 bg-gradient-to-b from-background to-muted/30">
+    <section className="py-12">
       <div className="container mx-auto px-4 max-w-4xl">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 text-foreground">Зарегистрируйте Вашу Площадку</h2>
-          <p className="text-lg text-muted-foreground">Заполните форму ниже, чтобы присоединиться к нашей сети</p>
+        <div className="text-center mb-8">
+          <h2 className="text-4xl font-bold mb-4 text-foreground">Регистрация площадки</h2>
+          <p className="text-lg text-muted-foreground">
+            Заполните все обязательные поля для регистрации вашей площадки в нашей системе
+          </p>
         </div>
 
         <Card className="p-8 shadow-xl">
+          {/* Validation Errors */}
+          {validationErrors.length > 0 && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                <ul className="list-disc list-inside">
+                  {validationErrors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </ul>
+              </AlertDescription>
+            </Alert>
+          )}
+
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex justify-between text-sm mb-2">
@@ -280,7 +323,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
                 variant="hero"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="min-w-[120px]"
+                className="min-w-[140px]"
               >
                 {isSubmitting ? (
                   <>
@@ -288,7 +331,7 @@ export default function VenueRegistrationForm({ onSubmitSuccess }: VenueRegistra
                     Отправка...
                   </>
                 ) : (
-                  'Отправить Регистрацию'
+                  'Отправить заявку'
                 )}
               </Button>
             ) : (
